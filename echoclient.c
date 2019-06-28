@@ -14,10 +14,13 @@ int main(int argc, char **argv)
 
 	clientfd = open_clientfd(host, port);
 
+	memset(buf, 0, MAXLINE);
 	while (fgets(buf, MAXLINE, stdin) != NULL){
 		write(clientfd, buf, strlen(buf));
+		memset(buf, 0, MAXLINE);
 		read(clientfd, buf, MAXLINE);
 		fputs(buf, stdout);
+		memset(buf, 0, MAXLINE);
 	}
 	close(clientfd);
 	exit(0);

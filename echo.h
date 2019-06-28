@@ -1,10 +1,12 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netdb.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 
 #define MAXLINE 1024
 #define LISTENQ 1024
@@ -78,11 +80,13 @@ void echo(int connfd)
 	 size_t n;
 	 char buf[MAXLINE], send_buf[MAXLINE];
 
+	memset(buf, 0, MAXLINE);
 	 while((n = read(connfd, buf, MAXLINE)) != 0) {
 		printf("server receive %d bytes\n", (int)n);
 		printf("buf: %s\n", buf);
-		memset(send_buf, 0, strlen(send_buf));
+		memset(send_buf, 0, MAXLINE);
 		sprintf(send_buf, "server recieved %s", buf);
 		write(connfd, send_buf, strlen(send_buf));
+		memset(buf, 0, MAXLINE);
 	 }
 }
