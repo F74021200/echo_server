@@ -24,11 +24,8 @@ int main(int argc, char **argv)
 			fprintf(stderr, "Error: malloc error\n");
 			return -1;
 		}
-		if (!(*connfdp = accept(listenfd, (struct sockaddr *) &clientaddr,\
-								&clientlen))) {
-			fprintf(stderr, "Error: accept error, %d\n", *connfdp);
-			return -1;
-		}
+		*connfdp = Accept(listenfd, (struct sockaddr *) &clientaddr,\
+								&clientlen);
 		if (pthread_create(&tid, NULL, thread, connfdp) != 0) {
 			fprintf(stderr, "Error: thread-create error\n");
 			return -1;

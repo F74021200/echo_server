@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	listenfd = open_listenfd(argv[1]);
 	while (1) {
 		clientlen = sizeof(struct sockaddr_storage);
-		connfd = accept(listenfd, (struct sockaddr *) &clientaddr, &clientlen);
+		connfd = Accept(listenfd, (struct sockaddr *) &clientaddr, &clientlen);
 		repid = fork();
 		if (repid == 0) {
 			close(listenfd);

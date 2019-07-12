@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <pthread.h>
 
 #define MAXLINE 1024
 #define LISTENQ 1024
@@ -14,6 +15,7 @@
 int open_clientfd(char *hostname, char *port);
 int open_listenfd(char *port);
 void echo(int connfd);
+int Accept (int, struct sockaddr *, socklen_t *);
 
 int open_clientfd(char *hostname, char *port)
 {
@@ -89,4 +91,16 @@ void echo(int connfd)
 		write(connfd, send_buf, strlen(send_buf));
 		memset(buf, 0, MAXLINE);
 	 }
+}
+
+int Accept (int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+{
+	int retfd;
+
+	retfd = accept(sockfd, addr, addrlen);
+	if (retfd > 0) return retfd;
+	else{
+		fprintf(stderr, "Error: accept error\n");
+		exit(0);
+	}
 }
