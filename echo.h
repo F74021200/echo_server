@@ -13,6 +13,7 @@
 #define LISTENQ 1024
 
 extern int rmnN;
+extern pthread_mutex_t lock;
 
 int open_listenfd(char *port);
 void echo(int connfd);

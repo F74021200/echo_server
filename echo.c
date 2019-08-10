@@ -74,10 +74,12 @@ void consume(int connfd)
 		if(read(connfd, buf, MAXLINE) > 0){
 			rcvn = atoi(buf);
 			printf("rmnN: %d\nrecieve:%d\n", rmnN, rcvn);
+			pthread_mutex_lock(&lock);
 			if(rmnN - rcvn >= 0){
 				sleep(1);
 				rmnN = rmnN - rcvn;
 			}
+			pthread_mutex_unlock(&lock);
 		}
 		if(rmnN < 0){
 			printf("\nrmnN: %d\n", rmnN);

@@ -1,6 +1,7 @@
 #include "echo.h"
 
 int rmnN = 3000;
+pthread_mutex_t lock;
 
 void sigchld_handler(int sig)
 {

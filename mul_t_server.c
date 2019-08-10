@@ -1,7 +1,8 @@
 #include "echo.h"
 #include <signal.h>
 
-int rmnN = 3000;
+int rmnN = 300;
+pthread_mutex_t lock;
 
 void *thread(void *vargp);
 
@@ -23,6 +24,11 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
+	if(pthread_mutex_init(&lock, NULL) != 0){
+		printf("\n mutex init fail\n");
+		exit(-1);
+	}
+
 	while (1) {
 		clientlen = sizeof(struct sockaddr_storage);
 		if (!(connfdp = malloc(sizeof(int)))){
@@ -36,6 +42,7 @@ int main(int argc, char **argv)
 			return -1;
 		}
 	}
+	pthread_mutex_destroy(&lock);
 }
 
 void *thread(void *vargp)
