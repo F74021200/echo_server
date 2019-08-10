@@ -1,5 +1,7 @@
 #include "echo.h"
 
+int rmnN = 3000;
+
 void sigchld_handler(int sig)
 {
 	while (waitpid(-1, 0, WNOHANG) > 0)

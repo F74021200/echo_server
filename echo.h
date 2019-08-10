@@ -12,8 +12,9 @@
 #define MAXLINE 1024
 #define LISTENQ 1024
 
-int open_clientfd(char *hostname, char *port);
+extern int rmnN;
+
 int open_listenfd(char *port);
 void echo(int connfd);
 int Accept (int, struct sockaddr *, socklen_t *);
-void cl_echo(int connfd);
+void consume(int connfd);

@@ -1,4 +1,7 @@
 #include "echo.h"
+#include <signal.h>
+
+int rmnN = 3000;
 
 void *thread(void *vargp);
 
@@ -8,6 +11,8 @@ int main(int argc, char **argv)
 	socklen_t clientlen;
 	struct sockaddr_storage clientaddr;
 	pthread_t tid;
+
+	
 
 	if (argc != 2) {
 		fprintf(stderr, "usage: %s <port>\n", argv[0]);
@@ -41,6 +46,7 @@ void *thread(void *vargp)
 		return NULL;
 	}
 	free(vargp);
-	echo(connfd);
+	//echo(connfd);
+	consume(connfd);
 	return NULL;
 }

@@ -1,4 +1,4 @@
-#include "echo.h"
+#include "client.h"
 
 int main(int argc, char **argv)
 {
@@ -13,7 +13,8 @@ int main(int argc, char **argv)
 	port = argv[2];
 
 	clientfd = open_clientfd(host, port);
-	cl_echo(clientfd);
+	//cl_echo(clientfd);
+	cl_consume(clientfd);
 
 	close(clientfd);
 	exit(0);

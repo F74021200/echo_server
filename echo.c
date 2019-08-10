@@ -1,31 +1,5 @@
 #include "echo.h"
 
-int open_clientfd(char *hostname, char *port)
-{
-	int clientfd;
-	struct addrinfo hints, *listp, *p;
-
-	memset(&hints, 0, sizeof(struct addrinfo));
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_flags = AI_NUMERICSERV;
-	hints.ai_flags |= AI_ADDRCONFIG;
-	getaddrinfo(hostname, port, &hints, &listp);
-
-	for (p = listp; p; p = p->ai_next) {
-		if ((clientfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) < 0)
-				continue;
-		if (connect(clientfd, p->ai_addr, p->ai_addrlen) != -1)
-				break;
-		close(clientfd);
-	}
-
-	freeaddrinfo(listp);
-	if (!p)
-			return -1;
-	else
-			return clientfd;
-}
-
 int open_listenfd(char *port)
 {
 	struct addrinfo hints, *listp, *p;
@@ -88,17 +62,18 @@ int Accept (int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 	}
 }
 
-void cl_echo(int clientfd)
+void consume(int connfd)
 {
 	char buf[MAXLINE];
-	int n = 0; //n is the number of communication.
+	int rcvn = 0;
 
 	memset(buf, 0, MAXLINE);
-	while (sprintf(buf, "client %d\n", n++)){
-		write(clientfd, buf, strlen(buf));
+	if (sprintf(buf, "%d", rmnN) > 0){
+		write(connfd, buf, strlen(buf));
 		memset(buf, 0, MAXLINE);
-		read(clientfd, buf, MAXLINE);
-		fputs(buf, stdout);
-		memset(buf, 0, MAXLINE);
+		if(read(connfd, buf, MAXLINE) > 0){
+			rcvn = atoi(buf);
+			printf("rmnN: %d\nrecieve:%d\n", rmnN, rcvn);
+		}
 	}
 }
