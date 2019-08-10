@@ -16,3 +16,4 @@ int open_clientfd(char *hostname, char *port);
 int open_listenfd(char *port);
 void echo(int connfd);
 int Accept (int, struct sockaddr *, socklen_t *);
+void cl_echo(int connfd);

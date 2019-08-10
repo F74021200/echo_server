@@ -87,3 +87,18 @@ int Accept (int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 		exit(0);
 	}
 }
+
+void cl_echo(int clientfd)
+{
+	char buf[MAXLINE];
+	int n = 0; //n is the number of communication.
+
+	memset(buf, 0, MAXLINE);
+	while (sprintf(buf, "client %d\n", n++)){
+		write(clientfd, buf, strlen(buf));
+		memset(buf, 0, MAXLINE);
+		read(clientfd, buf, MAXLINE);
+		fputs(buf, stdout);
+		memset(buf, 0, MAXLINE);
+	}
+}
