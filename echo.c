@@ -68,12 +68,22 @@ void consume(int connfd)
 	int rcvn = 0;
 
 	memset(buf, 0, MAXLINE);
-	if (sprintf(buf, "%d", rmnN) > 0){
+	while (sprintf(buf, "%d", rmnN) > 0){
 		write(connfd, buf, strlen(buf));
 		memset(buf, 0, MAXLINE);
 		if(read(connfd, buf, MAXLINE) > 0){
 			rcvn = atoi(buf);
 			printf("rmnN: %d\nrecieve:%d\n", rmnN, rcvn);
+			if(rmnN - rcvn >= 0){
+				sleep(1);
+				rmnN = rmnN - rcvn;
+			}
 		}
+		if(rmnN < 0){
+			printf("\nrmnN: %d\n", rmnN);
+			exit(-1);
+		}
+		else if(rmnN == 0)
+			rmnN = 300;
 	}
 }

@@ -47,10 +47,10 @@ void cl_consume(int clientfd)
 	int rmnn = 0, cnsmn = 0;
 
 	memset(buf, 0, MAXLINE);
-	if (read(clientfd, buf, MAXLINE) > 0){
+	while (read(clientfd, buf, MAXLINE) > 0){
 		rmnn = atoi(buf);
 		srand(time(NULL));
-		cnsmn = rand() % rmnn;
+		cnsmn = rand() % 10;
 		printf("receive: %d\nsend: %d\n", rmnn, cnsmn);
 		memset(buf, 0, MAXLINE);
 		sprintf(buf, "%d", cnsmn);
