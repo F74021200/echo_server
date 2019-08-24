@@ -1,6 +1,6 @@
-#include "echo.h"
+#include "mul_p.h"
 
-int rmnN = 3000;
+int rmnN = 300;
 pthread_mutex_t lock;
 
 void sigchld_handler(int sig)

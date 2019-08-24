@@ -1,10 +1,7 @@
-#include "echo.h"
-#include <signal.h>
+#include "mul_t.h"
 
 int rmnN = 300;
 pthread_mutex_t lock;
-
-void *thread(void *vargp);
 
 int main(int argc, char **argv)
 {
@@ -43,17 +40,4 @@ int main(int argc, char **argv)
 		}
 	}
 	pthread_mutex_destroy(&lock);
-}
-
-void *thread(void *vargp)
-{
-	int connfd = *((int *)vargp);
-	if (pthread_detach(pthread_self()) != 0) {
-		fprintf(stderr, "Error: thread-detach error\n");
-		return NULL;
-	}
-	free(vargp);
-	//echo(connfd);
-	consume(connfd);
-	return NULL;
 }
