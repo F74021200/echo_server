@@ -1,6 +1,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
 #include <netdb.h>
 #include <string.h>
 #include <stdio.h>
@@ -18,4 +20,5 @@ extern pthread_mutex_t lock;
 int open_listenfd(char *port);
 void echo(int connfd);
 int Accept (int, struct sockaddr *, socklen_t *);
-void consume(int connfd);
+void consume(int connfd, int *rmnN);
+void sigchld_handler(int sig);

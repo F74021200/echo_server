@@ -62,30 +62,35 @@ int Accept (int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 	}
 }
 
-void consume(int connfd)
+void consume(int connfd, int *rmnN)
 {
 	char buf[MAXLINE];
 	int rcvn = 0;
 
 	memset(buf, 0, MAXLINE);
-	while (sprintf(buf, "%d", rmnN) > 0){
+	while (sprintf(buf, "%d", *rmnN) > 0){
 		write(connfd, buf, strlen(buf));
 		memset(buf, 0, MAXLINE);
 		if(read(connfd, buf, MAXLINE) > 0){
 			rcvn = atoi(buf);
-			printf("rmnN: %d\nrecieve:%d\n", rmnN, rcvn);
-			pthread_mutex_lock(&lock);
-			if(rmnN - rcvn >= 0){
+			printf("rmnN: %d\nrecieve:%d\n", *rmnN, rcvn);
+			if(*rmnN - rcvn >= 0){
 				sleep(1);
-				rmnN = rmnN - rcvn;
+				*rmnN = *rmnN - rcvn;
 			}
-			pthread_mutex_unlock(&lock);
 		}
-		if(rmnN < 0){
-			printf("\nrmnN: %d\n", rmnN);
+		if(*rmnN < 0){
+			printf("\nrmnN: %d\n", *rmnN);
 			exit(-1);
 		}
-		else if(rmnN == 0)
-			rmnN = 300;
+		else if(*rmnN == 0)
+			*rmnN = 300;
 	}
+}
+
+void sigchld_handler(int sig)
+{
+	while (waitpid(-1, 0, WNOHANG) > 0)
+		;
+	return;
 }
